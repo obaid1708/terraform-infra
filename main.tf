@@ -78,10 +78,11 @@ resource "azurerm_linux_virtual_machine" "obaid-vm-tf" {
     size = "Standard_D2ls_v5"
     admin_username = "obaid"
     network_interface_ids = [azurerm_network_interface.obaid-nic-tf.id]
-    admin_ssh_key {
-        username = "obaid"
-        public_key = file("C:/Users/Dell/.ssh/id_rsa.pub")
-    }
+    admin_password = "Obaid@123"
+    # admin_ssh_key {
+    #    username = "obaid"
+    #    public_key = file("/var/lib/jenkins/.ssh/id_rsa")
+    # }
     os_disk {
         caching = "ReadWrite"
         storage_account_type = "Standard_LRS"
@@ -93,7 +94,7 @@ resource "azurerm_linux_virtual_machine" "obaid-vm-tf" {
         version = "latest"
     }
     computer_name = "obaid-vm-tf"
-    disable_password_authentication = true
+    disable_password_authentication = false
 }
 output "public_ip_address" {
     value = azurerm_public_ip.obaid-tfpip.ip_address
