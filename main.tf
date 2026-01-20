@@ -12,30 +12,30 @@ provider "azurerm" {
 
 
 
-resource "azurerm_resource_group" "obaid-rg" {
-  name     = "obaid-rg-us"
+resource "azurerm_resource_group" "poornesh-rg" {
+  name     = "poornesh-rg-us"
   location = "australiaeast"
   lifecycle {
     create_before_destroy = true
   }
 }
-resource "azurerm_virtual_network" "obaid-vnet-tf"{  
-    name="obaid-vnet-tf"
+resource "azurerm_virtual_network" "poornesh-vnet-tf"{  
+    name="poornesh-vnet-tf"
     address_space = ["10.0.0.0/16"]
-    resource_group_name = azurerm_resource_group.obaid-rg.name
+    resource_group_name = azurerm_resource_group.poornesh-rg.name
     location = "australiaeast"
 }
-resource "azurerm_subnet" "obaid-subnet-tf"{
-    name = "obaid-subnet-tf"
-    resource_group_name = azurerm_resource_group.obaid-rg.name
-    virtual_network_name = azurerm_virtual_network.obaid-vnet-tf.name
+resource "azurerm_subnet" "poornesh-subnet-tf"{
+    name = "poornesh-subnet-tf"
+    resource_group_name = azurerm_resource_group.poornesh-rg.name
+    virtual_network_name = azurerm_virtual_network.poornesh-vnet-tf.name
     address_prefixes = ["10.0.0.0/23"]
 }
 resource "azurerm_network_security_group" "nsg-tf" {
     name = "nsg-tf"
     location = "australiaeast"
     
-    resource_group_name = azurerm_resource_group.obaid-rg.name
+    resource_group_name = azurerm_resource_group.poornesh-rg.name
     security_rule {
         name="ssh"
         destination_port_range = "22"
@@ -48,39 +48,39 @@ resource "azurerm_network_security_group" "nsg-tf" {
         direction = "Inbound"
     }
 }
-resource "azurerm_public_ip" "obaid-tfpip"{
-    name = "obaid-tf"
+resource "azurerm_public_ip" "poornesh-tfpip"{
+    name = "poornesh-tf"
     location = "australiaeast"
-    resource_group_name = azurerm_resource_group.obaid-rg.name
+    resource_group_name = azurerm_resource_group.poornesh-rg.name
     allocation_method = "Static"
     sku = "Standard"
 
 }
-resource "azurerm_network_interface" "obaid-nic-tf"{
-    name = "obaid-nic-tf"
+resource "azurerm_network_interface" "poornesh-nic-tf"{
+    name = "poornesh-nic-tf"
     location = "australiaeast"
-    resource_group_name = azurerm_resource_group.obaid-rg.name
+    resource_group_name = azurerm_resource_group.poornesh-rg.name
    
     ip_configuration {
         name = "pip"
-        subnet_id = azurerm_subnet.obaid-subnet-tf.id
+        subnet_id = azurerm_subnet.poornesh-subnet-tf.id
         private_ip_address_allocation = "Dynamic"
-        public_ip_address_id = azurerm_public_ip.obaid-tfpip.id
+        public_ip_address_id = azurerm_public_ip.poornesh-tfpip.id
     }
     # lifecycle {
     #   ignore_changes = "true" 
     # }
 }
-resource "azurerm_linux_virtual_machine" "obaid-vm-tf" {
-    name = "obaid-vm-tf"
-    resource_group_name = azurerm_resource_group.obaid-rg.name
+resource "azurerm_linux_virtual_machine" "poornesh-vm-tf" {
+    name = "poornesh-vm-tf"
+    resource_group_name = azurerm_resource_group.poornesh-rg.name
     location = "australiaeast"
     size = "Standard_D2ls_v5"
-    admin_username = "obaid"
-    network_interface_ids = [azurerm_network_interface.obaid-nic-tf.id]
-    admin_password = "Obaid@123"
+    admin_username = "poornesh"
+    network_interface_ids = [azurerm_network_interface.poornesh-nic-tf.id]
+    admin_password = "Poornesh@123"
     # admin_ssh_key {
-    #    username = "obaid"
+    #    username = "poornesh"
     #    public_key = file("/var/lib/jenkins/.ssh/id_rsa")
     # }
     os_disk {
@@ -93,11 +93,11 @@ resource "azurerm_linux_virtual_machine" "obaid-vm-tf" {
         sku = "18.04-LTS"
         version = "latest"
     }
-    computer_name = "obaid-vm-tf"
+    computer_name = "poornesh-vm-tf"
     disable_password_authentication = false
 }
 output "public_ip_address" {
-    value = azurerm_public_ip.obaid-tfpip.ip_address
+    value = azurerm_public_ip.poornesh-tfpip.ip_address
 }
 
 
