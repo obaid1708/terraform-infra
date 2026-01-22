@@ -13,7 +13,7 @@ provider "azurerm" {
   subscription_id = "1467e2e0-fbcd-4ddb-9152-e6ec5035af83"
   tenant_id       = "69c24dfe-cbc6-4aef-9110-d1a281df1c73"
 }
-
+# hello
 
 
 resource "azurerm_resource_group" "obaid-rg" {
