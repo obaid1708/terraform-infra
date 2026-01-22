@@ -72,7 +72,7 @@ resource "azurerm_network_interface" "obaid-nic-tf"{
     # }
 }
 resource "azurerm_linux_virtual_machine" "obaid-vm-tf" {
-    name = "obaid-vm-tf"
+    name = "obaid-vm-tf-git"
     resource_group_name = azurerm_resource_group.obaid-rg.name
     location = "australiaeast"
     size = "Standard_D2ls_v5"
